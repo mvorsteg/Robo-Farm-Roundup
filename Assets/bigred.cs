@@ -29,7 +29,7 @@ public class bigred : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         rb.gameObject.GetComponent<Transform>().localEulerAngles = new Vector3(0, 0, 0);
         transform.gameObject.tag = "ugly";
-        speed = Random.Range(0.04F, 0.06F);
+        speed = Random.Range(2.3F, 5F);
     }
 
     // Update is called once per frame
@@ -45,7 +45,7 @@ public class bigred : MonoBehaviour
             float y = transform.localEulerAngles.y;
 
             transform.localEulerAngles = new Vector3(x, y + 90, z);
-            rb.position -= new Vector3((transform.right * speed).x, 0, (transform.right * speed).z);
+            rb.position -= new Vector3((transform.right * speed * Time.deltaTime).x, 0, (transform.right * speed * Time.deltaTime).z);
         }
     }
     //transform.Rotate(0, 0, 0);

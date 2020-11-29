@@ -7,7 +7,8 @@ public class red : MonoBehaviour
     public GameObject player;
     public GameObject particles;
     public float speed;
-    public static float maxSpeed = 0.04F;
+    public float jetpackForce;
+    public static float maxSpeed = 2.3F;
     private Rigidbody rb;
     public bool flag;
     private bool jetpack = false;
@@ -38,8 +39,8 @@ public class red : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         rb.gameObject.GetComponent<Transform>().localEulerAngles = new Vector3(0, 0, 0);
         transform.gameObject.tag = "ugly";
-        maxSpeed += 0.002F;
-        speed = Random.Range(0.04F, maxSpeed);
+        maxSpeed += 0.05F;
+        speed = Random.Range(2.3F, maxSpeed);
     }
 
     // Update is called once per frame
@@ -59,7 +60,7 @@ public class red : MonoBehaviour
                 if(player.GetComponent<Transform>().position.y > transform.position.y && player.GetComponent<Transform>().position.y > 2.5)
                 {
                     //Debug.Log(player.GetComponent<Transform>().position.y);
-                    GetComponent<Rigidbody>().AddForce(0, 5, 0);
+                    GetComponent<Rigidbody>().AddForce(0, jetpackForce * Time.deltaTime, 0);
                     if (particles.GetComponent<ParticleSystem>().isPlaying == false)
                     {
                         particles.GetComponent<ParticleSystem>().Play();
@@ -76,7 +77,7 @@ public class red : MonoBehaviour
             }
 
             transform.localEulerAngles = new Vector3(x, y + 90, z);
-            rb.position -= new Vector3((transform.right * speed).x, 0, (transform.right * speed).z);
+            rb.position -= new Vector3((transform.right * speed * Time.deltaTime).x, 0, (transform.right * speed * Time.deltaTime).z);
         }
     }
     //transform.Rotate(0, 0, 0);

@@ -138,7 +138,7 @@ MonoBehaviour:
   music: {fileID: 616555920}
   scream: {fileID: 2146771090}
   fuelBar: {fileID: 559251423}
-  speed: 5
+  speed: 4
   jetpackForce: 1200
   flag: 0
   big: {fileID: 2385290603923312389, guid: 60c3139a36456b54fa3caebbd43fa630, type: 3}
