@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class scripty : MonoBehaviour
 {
-    private const double maxFuel = 100.0;
+    private const float maxFuel = 1.5f;
     public GameObject cameras;
     public AudioSource valkyrie;
     public AudioSource music;
@@ -13,6 +13,7 @@ public class scripty : MonoBehaviour
     private GameObject sadMusic;
     public Slider fuelBar;
     public float speed;
+    public float jetpackForce;
     private float rotationSpeed;
     public bool flag;
     private Rigidbody rb;
@@ -23,7 +24,7 @@ public class scripty : MonoBehaviour
     public GameObject jetpack;
     public GameObject particles;
     public GameObject scoreBoard;
-    private int fuel;
+    private float fuel;
     private int kills;
     public GameObject gameOver;
     public Text txt;
@@ -38,7 +39,7 @@ public class scripty : MonoBehaviour
         red.maxSpeed = 0.04F;
         cameras.GetComponent<cameras>().overhead.enabled = false;
         particles.GetComponent<ParticleSystem>().Stop();
-        fuel = (int)maxFuel;
+        fuel = maxFuel;
         flag = true;
         rb = GetComponent<Rigidbody>();
         time = 0;
@@ -83,22 +84,22 @@ public class scripty : MonoBehaviour
 
             if (Input.GetKey(KeyCode.S))
             {
-                transform.position += transform.right * speed;
+                transform.position += transform.right * speed * Time.deltaTime;
                 //rb.position -= new Vector3((transform.right * speed).x, 0, (transform.right * speed).z);
             }
 
             if (Input.GetKey(KeyCode.W))
             {
-                transform.position -= transform.right * speed;
+                transform.position -= transform.right * speed * Time.deltaTime;
             }
 
             if (Input.GetKey(KeyCode.D))
             {
-                transform.Rotate(0, speed * 20, 0);
+                transform.Rotate(0, speed * 20 * Time.deltaTime, 0);
             }
             if (Input.GetKey(KeyCode.A))
             {
-                transform.Rotate(0, speed * -20, 0);
+                transform.Rotate(0, speed * -20 * Time.deltaTime, 0);
             }
             if (Input.GetKey(KeyCode.Space) && fuel > 0)
             {
@@ -109,9 +110,9 @@ public class scripty : MonoBehaviour
                 }
 
                 fuelBar.value = CalculateFuel();
-                jetpack.GetComponent<Rigidbody>().AddForce(0, 15, 0);
-                GetComponent<Rigidbody>().AddForce(0, 15, 0);
-                fuel--;
+                jetpack.GetComponent<Rigidbody>().AddForce(0, jetpackForce * Time.deltaTime, 0);
+                GetComponent<Rigidbody>().AddForce(0, jetpackForce * Time.deltaTime, 0);
+                fuel -= Time.deltaTime;
                 
             }
             if (Input.GetKeyDown(KeyCode.Space) && fuel > 0)
@@ -149,7 +150,7 @@ public class scripty : MonoBehaviour
 
     float CalculateFuel()
     {
-        return (float)(fuel / maxFuel);
+        return fuel / maxFuel;
     }
 
     public void score()
@@ -184,7 +185,7 @@ public class scripty : MonoBehaviour
             if (music.isPlaying == false)
                 music.Play();
             //Debug.Log("Refueling");
-            fuel++;
+            fuel += Time.deltaTime;
             fuelBar.value = CalculateFuel();
         }
     }
